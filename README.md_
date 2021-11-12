@@ -1,0 +1,7 @@
+run 
+$ node server.js
+
+$ nodemon ./server.js
+
+deploy 
+$ sh deploy.sh
