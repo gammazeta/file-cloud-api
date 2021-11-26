@@ -24,29 +24,29 @@ app.post('/', (req, res) => {
     let data = req.body.message;
     console.log(data);
     console.log(persons[data.idConnect]);
-    if(persons[data.idConnect] == undefined || persons[data.idConnect] == null){
+    if (persons[data.idConnect] == undefined || persons[data.idConnect] == null) {
         console.log("user not found");
         let resMessage = {
-            type:"NOT_FOUND",
-            id:data.idConnect
+            type: "NOT_FOUND",
+            id: data.idConnect
         }
         return res.send(resMessage);
-    }else{
-        try{
+    } else {
+        try {
             let message = {
                 type: data.type,
                 idConnect: data.idPerson,
                 iceConnect: data.icePerson
             }
             persons[data.idConnect].send(JSON.stringify(message));
-        } catch(e){
+        } catch (e) {
             console.log(e);
             return res.send(e);
         }
     }
     let resMessage = {
-        type:"SUCCESS",
-        id:data.idConnect
+        type: "SUCCESS",
+        id: data.idConnect
     }
     return res.send(resMessage);
 })
@@ -59,17 +59,28 @@ const server = app.listen(port, function () {
 });
 server.on('upgrade', (request, socket, head) => {
     wsServer.handleUpgrade(request, socket, head, socket => {
-      wsServer.emit('connection', socket, request);
+        wsServer.emit('connection', socket, request);
     });
-  });
+});
 
 let persons = [];
+
+
 
 //init id for user
 wsServer.on("connection", socket => {
     console.log("have connect");
     persons.push(socket);
 
+    socket.on("close",()=>{
+        console.log("on close connect");
+        let index = persons.indexOf(socket);
+        console.log(index);
+
+        persons.splice(index,1);
+    })
+    
+    console.log("length persons :"+persons.length);
     let id = persons.length - 1;
     let message = {
         type: "INIT",
@@ -77,4 +88,9 @@ wsServer.on("connection", socket => {
     }
     //send by socket
     persons[id].send(JSON.stringify(message));
+
+    
 });
+
+
+
