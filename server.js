@@ -93,7 +93,7 @@ wsServer.on("connection", socket => {
 
 setInterval(()=>{
     wsServer.clients.forEach((client)=>{
-        console.log(new Date().toTimeString());
+        //console.log(new Date().toTimeString());
         client.send(new Date().toTimeString());
     });
 },1000)
