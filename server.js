@@ -74,10 +74,10 @@ wsServer.on("connection", socket => {
 
     socket.on("close",()=>{
         console.log("on close connect");
-        let index = persons.indexOf(socket);
+        /*let index = persons.indexOf(socket);
         console.log(index);
 
-        persons.splice(index,1);
+        persons.splice(index,1);*/
     })
     
     console.log("length persons :"+persons.length);
