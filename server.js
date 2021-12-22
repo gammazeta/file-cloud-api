@@ -36,7 +36,8 @@ app.post('/', (req, res) => {
             let message = {
                 type: data.type,
                 idConnect: data.idPerson,
-                iceConnect: data.icePerson
+                iceConnect: data.icePerson,
+                message:data.message
             }
             persons[data.idConnect].send(JSON.stringify(message));
         } catch (e) {
